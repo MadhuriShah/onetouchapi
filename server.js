@@ -8,6 +8,8 @@ var client = new twilio.RestClient('ACb29a92edc3fe2012ac9c6d2e6e381e14', 'c14726
 
 // Pass in parameters to the REST API using an object literal notation. The
 // REST client will handle authentication and response serialzation for you.
+
+app.get('/', function (req, res) {
 client.sms.messages.create({
    to:'+15194643493',
    from:'+12267786035',
@@ -30,7 +32,6 @@ client.sms.messages.create({
        console.log('Oops! There was an error.');
    }
 })
-app.get('/', function (req, res) {
 	res.send('hello world');
 });
 var ip = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
