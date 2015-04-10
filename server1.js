@@ -1,23 +1,19 @@
 var express = require('express');
 var app=express();
-app.use(express.bodyParser());
 var twilio = require('twilio');
-var client = new twilio.RestClient('ACb29a92edc3fe2012ac9c6d2e6e381e14', 'c14726503c044f16807a6df4d390c214');
+
+// Create a new REST API client to make authenticated requests against the
+// twilio back end
+var client = new twilio.RestClient('AC2c6df62a9c6349427f98bddc594df420', '08e1e5aeda14439fa14d137612cd1a5c');
+
+// Pass in parameters to the REST API using an object literal notation. The
+// REST client will handle authentication and response serialzation for you.
+
 app.get('/', function (req, res) {
-
-	res.send('hello world');
-});
-
-app.post('/', function (req, res) {
-	var To=req.body.To;
-	var From=req.body.From;
-	var Body=req.body.Body;
-	
-	
 client.sms.messages.create({
-   to:To,
-   from:From,
-   body:Body
+   to:'+15194643493',
+   from:'+12267782157',
+   body:'http://maps.apple.com/maps?ll=51.83733,-8.3016'
 }, function(error, message) {
    // The HTTP request to Twilio will run asynchronously. This callback
    // function will be called when a response is received from Twilio
@@ -28,15 +24,24 @@ client.sms.messages.create({
        // sent back by Twilio for the request. In this case, it is the
        // information about the text messsage you just sent:
        console.log('Success! The SID for this SMS message is:');
-       console.log(message.sid);
+      // console.log(message.sid);
 
        console.log('Message sent on:');
        console.log(message.dateCreated);
    } else {
        console.log('Oops! There was an error.');
    }
-})
-	res.send('hello '+To+From+Body);
+}),
+client.calls.create({
+    url: "http://demo.twilio.com/docs/voice.xml",
+    to: "+15194643493",
+    from: "+12267782157"
+}, function(err, call) {
+    //process.stdout.write(call.sid);
+});
+	res.send('hello world');
+	
+
 });
 var ip = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;

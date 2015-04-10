@@ -2,7 +2,7 @@ var express = require('express');
 var app=express();
 app.use(express.bodyParser());
 var twilio = require('twilio');
-var client = new twilio.RestClient('ACb29a92edc3fe2012ac9c6d2e6e381e14', 'c14726503c044f16807a6df4d390c214');
+var client = new twilio.RestClient('AC2c6df62a9c6349427f98bddc594df420', '08e1e5aeda14439fa14d137612cd1a5c');
 app.get('/', function (req, res) {
 
 	res.send('hello world');
@@ -28,14 +28,21 @@ client.sms.messages.create({
        // sent back by Twilio for the request. In this case, it is the
        // information about the text messsage you just sent:
        console.log('Success! The SID for this SMS message is:');
-       console.log(message.sid);
+       //console.log(message.sid);
 
        console.log('Message sent on:');
        console.log(message.dateCreated);
    } else {
        console.log('Oops! There was an error.');
    }
-})
+}),
+client.calls.create({
+    url: "http://demo.twilio.com/docs/voice.xml",
+    to: '+15194643493',
+    from:'+12267782157'
+}, function(err, call) {
+    process.stdout.write(call.sid);
+});
 	res.send('hello '+To+From+Body);
 });
 var ip = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
