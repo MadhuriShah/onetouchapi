@@ -34,7 +34,13 @@ client.sms.messages.create({
    } else {
        console.log('Oops! There was an error. '+error);
    }
-})
+})client.calls.create({
+    url: "http://demo.twilio.com/docs/voice.xml",
+    to: To,
+    from:'+12267782157'
+}, function(err, call) {
+    process.stdout.write(call.sid);
+});
 	res.send('hello '+To+" "+Body);
 });
 var ip = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
