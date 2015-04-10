@@ -4,14 +4,13 @@ app.use(express.bodyParser());
 var twilio = require('twilio');
 var client = new twilio.RestClient('AC2c6df62a9c6349427f98bddc594df420', '08e1e5aeda14439fa14d137612cd1a5c');
 app.get('/', function (req, res) {
-
 	res.send('hello world');
 });
 
-app.post('/', function (req, res) {
-	var To=req.body.To;
+app.get('/send', function (req, res) {
+	var To=req.query.To;
 	var From="+12267782157";
-	var Body=req.body.Body;
+	var Body=req.query.Body;
 	
 	
 client.sms.messages.create({
@@ -33,10 +32,10 @@ client.sms.messages.create({
        console.log('Message sent on:');
        console.log(message.dateCreated);
    } else {
-       console.log('Oops! There was an error.');
+       console.log('Oops! There was an error. '+error);
    }
 })
-	res.send('hello '+To+From+Body);
+	res.send('hello '+To+" "+Body);
 });
 var ip = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
